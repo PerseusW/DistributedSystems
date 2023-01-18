@@ -20,12 +20,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 3. Creating thread pool and executing.
  * 4. Recording basic pass/fail result count in thread safe manner.
  */
-public abstract class BenchMarkerBase {
+public abstract class BenchmarkerBase {
     protected final HttpClient CLIENT = HttpClient.newHttpClient();
     protected final Gson GSON = new Gson();
     protected final String IP = "35.92.135.113";
     protected final String PORT = "8080";
-    protected final String CONTEXT = "a1-servlet";
+    protected final String CONTEXT = "swagger-spring";
     protected final String PATH = "swipe";
     protected final String URL = String.format("http://%s:%s/%s/%s/", IP, PORT, CONTEXT, PATH);
     protected final AtomicInteger successes = new AtomicInteger(0);
@@ -35,7 +35,7 @@ public abstract class BenchMarkerBase {
     protected final Runnable runnable = getTestBody();
     protected final int threads;
 
-    protected BenchMarkerBase(int threads) {
+    protected BenchmarkerBase(int threads) {
         this.threads = threads;
     }
 

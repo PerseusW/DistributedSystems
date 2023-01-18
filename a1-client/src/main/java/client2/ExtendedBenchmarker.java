@@ -1,7 +1,7 @@
 package client2;
 
 import client1.Benchmark;
-import common.BenchMarkerBase;
+import common.BenchmarkerBase;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -14,7 +14,7 @@ import java.util.List;
  * This is the extended version of Benchmarker that records more verbose information about request time, type, latency
  * and response code.
  */
-public class ExtendedBenchmarker extends BenchMarkerBase {
+public class ExtendedBenchmarker extends BenchmarkerBase {
     private final List<Record> records = Collections.synchronizedList(new ArrayList<>(500000));
 
     public ExtendedBenchmarker(int threads) {

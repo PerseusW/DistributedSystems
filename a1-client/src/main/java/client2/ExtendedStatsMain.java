@@ -58,7 +58,7 @@ public class ExtendedStatsMain {
         double actualThroughput = benchmark.throughput;
         double error = Math.abs(1 - actualThroughput / theoryThroughput) * 100;
         System.out.println("Actual latency under load: " + latencyMs + " ms");
-        System.out.println("Theoretical throughput(Concurrency = num of threads) " + theoryThroughput + " req/s");
+        System.out.println("Theoretical throughput(Concurrency = num of threads): " + theoryThroughput + " req/s");
         System.out.println("Actual throughput: " + actualThroughput + " req/s");
         System.out.println("Throughput error rate: " + error + "%");
 

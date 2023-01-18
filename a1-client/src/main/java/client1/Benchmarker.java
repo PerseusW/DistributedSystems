@@ -1,17 +1,17 @@
 package client1;
 
-import common.BenchMarkerBase;
+import common.BenchmarkerBase;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 /**
  * @author Maidi Wang
- * This is a specialized version of BenchMarkerBase that simply sends 1 POST request with random SwipeDetails,
+ * This is a specialized version of BenchmarkerBase that simply sends 1 POST request with random SwipeDetails,
  * retries 5 times on failure, and logs the outcome "failure/success".
  * It is the bare minimum needed to satisfy Client (part 1) specifications.
  */
-public class Benchmarker extends BenchMarkerBase {
+public class Benchmarker extends BenchmarkerBase {
     public Benchmarker(int threads) {
         super(threads);
     }
