@@ -4,7 +4,7 @@ This is the intellectual work of **Maidi Wang**.
 
 ## Project URL
 
-https://github.com/PerseusW/DistributedSystems
+[https://github.com/PerseusW/DistributedSystems](https://github.com/PerseusW/DistributedSystems)
 
 The code for client part 1 and part 2 are in separate folders under `a1-client/` directory.
 
