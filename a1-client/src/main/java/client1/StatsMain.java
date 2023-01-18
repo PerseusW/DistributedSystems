@@ -42,19 +42,24 @@ public class StatsMain {
      * So actually, Concurrency < number of threads.
      * <p>
      * Still one more thing, Server latency can change under load, usually the higher the load, the higher the latency.
+     * So we need to calculate the average latency under the same load to achieve accurate results.
      */
     private static final int REQUESTS = 500000;
-    private static final int THREADS = 800;
+    private static final int THREADS = 900;
 
     public static void main(String[] args) throws InterruptedException {
         /**
-         * Client latency is approximately 65 ms, meaning 15 requests/sec.
-         * So to finish in reasonable time, say 30 secs, the number of requests should be around THREADS * 30 * 15.
+         * Client latency is approximately 100 ms under load, meaning 10 requests/sec.
+         * So to finish in reasonable time, say 60 secs, the number of requests should be around THREADS * 60 * 10.
          * This is the client side latency with components as follows:
          *     Client latency = network latency(to) + server processing time(load) + network latency(from).
-         * Unit is seconds.
+         * Unit is milliseconds.
          */
-        double loadLatency = new ExtendedBenchmarker(THREADS).run(THREADS * 30 * 15).getLatency();
+        double latencyMs = new ExtendedBenchmarker(THREADS).run(THREADS * 60 * 10).getLatency();
+
+        System.out.println("***Waiting 10 seconds for things to clear up.");
+        // Sleep 10 seconds for things to clear up on both client/server sides
+        Thread.sleep(10000, 0);
 
         // Run and print benchmark.
         Benchmark benchmark = new Benchmarker(THREADS).run(REQUESTS);
@@ -62,15 +67,13 @@ public class StatsMain {
 
         // Validation.
         System.out.println("***Validation");
-        double latencyMs = 1000 * loadLatency;
-        double theoryThroughput = THREADS / loadLatency;
-        double amendedThroughput = 0.9 * theoryThroughput;
+        double latency = latencyMs / 1000;
+        double theoryThroughput = THREADS / latency;
         double actualThroughput = benchmark.throughput;
-        double error = Math.abs(1 - amendedThroughput / actualThroughput) * 100;
+        double error = Math.abs(1 - actualThroughput / theoryThroughput) * 100;
         System.out.println("Actual latency under load: " + latencyMs + " ms");
         System.out.println("Theoretical throughput(Concurrency = num of threads) " + theoryThroughput + " req/s");
-        System.out.println("Amended throughput(Concurrency = 0.9 * num of threads) " + amendedThroughput + " req/s");
         System.out.println("Actual throughput: " + actualThroughput + " req/s");
-        System.out.println("Error rate: " + error + "%");
+        System.out.println("Throughput error rate: " + error + "%");
     }
 }

@@ -45,24 +45,22 @@ public class ExtendedStatsMain {
      * Still one more thing, Server latency can change under load, usually the higher the load, the higher the latency.
      */
     private static final int REQUESTS = 500000;
-    private static final int THREADS = 800;
+    private static final int THREADS = 900;
     public static void main(String[] args) throws InterruptedException {
         Benchmark benchmark = new ExtendedBenchmarker(THREADS).run(REQUESTS);
         System.out.println(benchmark);
 
         // Validation.
         System.out.println("***Validation");
-        double loadLatency = benchmark.getLatency();
-        double latencyMs = 1000 * loadLatency;
-        double theoryThroughput = THREADS / loadLatency;
-        double amendedThroughput = 0.9 * theoryThroughput;
+        double latencyMs = benchmark.getLatency();
+        double latency = latencyMs / 1000;
+        double theoryThroughput = THREADS / latency;
         double actualThroughput = benchmark.throughput;
-        double error = Math.abs(1 - amendedThroughput / actualThroughput) * 100;
+        double error = Math.abs(1 - actualThroughput / theoryThroughput) * 100;
         System.out.println("Actual latency under load: " + latencyMs + " ms");
         System.out.println("Theoretical throughput(Concurrency = num of threads) " + theoryThroughput + " req/s");
-        System.out.println("Amended throughput(Concurrency = 0.9 * num of threads) " + amendedThroughput + " req/s");
         System.out.println("Actual throughput: " + actualThroughput + " req/s");
-        System.out.println("Error rate: " + error + "%");
+        System.out.println("Throughput error rate: " + error + "%");
 
         // Show throughput over time.
         benchmark.plot();

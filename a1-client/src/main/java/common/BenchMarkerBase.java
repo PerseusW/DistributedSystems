@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class BenchMarkerBase {
     protected final HttpClient CLIENT = HttpClient.newHttpClient();
     protected final Gson GSON = new Gson();
-    protected final String IP = "0.0.0.0";
+    protected final String IP = "35.92.135.113";
     protected final String PORT = "8080";
     protected final String CONTEXT = "a1-servlet";
     protected final String PATH = "swipe";
@@ -47,14 +47,14 @@ public abstract class BenchMarkerBase {
         successes.set(0);
         failures.set(0);
 
-        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(threads, threads, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(threads, threads, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
         for (int i = 0; i < requests; ++i) {
             threadPool.execute(runnable);
         }
         // Stop receiving new tasks.
         threadPool.shutdown();
-        // Wait 5 minutes for tasks to finish, then close neatly.
-        if (!threadPool.awaitTermination(5, TimeUnit.MINUTES)) {
+        // Wait 10 minutes for tasks to finish, then close neatly.
+        if (!threadPool.awaitTermination(10, TimeUnit.MINUTES)) {
             threadPool.shutdownNow();
         }
         // Time is retrieved in milliseconds.
@@ -68,7 +68,7 @@ public abstract class BenchMarkerBase {
      */
     protected HttpRequest getRandomRequest() {
         return HttpRequest
-                .newBuilder(URI.create(URL.concat(SwipeDetails.getRandomSwipe())))
+                .newBuilder(URI.create(URL.concat(SwipeDetails.getRandomSwipe() + "/")))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(SwipeDetails.getRandomSwipeDetails()))).build();
     }
