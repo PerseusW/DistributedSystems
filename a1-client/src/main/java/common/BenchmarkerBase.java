@@ -23,9 +23,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class BenchmarkerBase {
     protected final HttpClient CLIENT = HttpClient.newHttpClient();
     protected final Gson GSON = new Gson();
-    protected final String IP = "35.92.135.113";
-    protected final String PORT = "8080";
-    protected final String CONTEXT = "swagger-spring";
+    protected final String IP = "servletbalancer-2011616882.us-west-2.elb.amazonaws.com";
+    protected final String PORT = "80";
+    protected final String CONTEXT = "a2-backend";
     protected final String PATH = "swipe";
     protected final String URL = String.format("http://%s:%s/%s/%s/", IP, PORT, CONTEXT, PATH);
     protected final AtomicInteger successes = new AtomicInteger(0);
